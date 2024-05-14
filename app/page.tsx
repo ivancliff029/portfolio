@@ -70,7 +70,7 @@ const AboutMe = () => {
       <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
         {/* Image div */}
         <div className="md:w-1/3 bg-white rounded-lg shadow-md p-8">
-          <img
+          <Image
             src="/img/ivan cliff.jpeg"
             alt="Your Story"
             className="rounded-lg"
