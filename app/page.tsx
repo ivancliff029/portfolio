@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
@@ -7,6 +8,7 @@ import AboutMe from './Components/AboutMe';
 import Technologies from './Components/Technologies';
 
 const Home = () => {
+
   return (
     <>
       <Navbar />
