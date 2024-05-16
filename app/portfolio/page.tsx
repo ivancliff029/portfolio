@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import Image from 'next/image';
 
 type ProjectBoxProps = {
   imageUrl: string;
@@ -11,7 +12,11 @@ type ProjectBoxProps = {
 const ProjectBox: React.FC<ProjectBoxProps> = ({ imageUrl, description, githubLink }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-      <img src={imageUrl} alt="Project" className="w-full h-40 object-cover mb-4 rounded-md" />
+      <Image
+       src={imageUrl}
+        alt="Project"
+         className="w-full h-40 object-cover mb-4 rounded-md" 
+         />
       <p className="text-lg mb-2">{description}</p>
       <a href={githubLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
         GitHub Link <span role="img" aria-label="GitHub icon">👉</span>
