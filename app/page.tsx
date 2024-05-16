@@ -83,7 +83,7 @@ const AboutMe = () => {
         <div className="md:w-2/3 bg-white rounded-lg shadow-md p-8">
           <h2 className="text-3xl font-bold mb-4">About Me</h2>
           <p className="text-lg">
-            My name is Odeke Ivan. I&apos;m passionate about technology and how things work. With over 5 years of experience in coding, I&apos;m a senior developer dedicated to creating innovative solutions. I approach project development with an open mind and a commitment to excellence.
+            My name is Odeke Ivan. I'm passionate about technology and how things work. With over 5 years of experience in coding, I'm a senior developer dedicated to creating innovative solutions. I approach project development with an open mind and a commitment to excellence.
           </p>
         </div>
       </div>
