@@ -20,7 +20,7 @@ const ComingSoon = () => {
               className="py-2 px-4 mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto border border-gray-300 rounded-md focus:outline-none"
             />
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none">
-              Subscribe
+              Subscribe Now
             </button>
           </form>
         </div>
