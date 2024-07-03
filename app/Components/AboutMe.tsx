@@ -13,7 +13,6 @@ const AboutMe = () => {
         transition={{ duration: 0.5 }}
         className="relative z-10 flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8"
       >
-        {/* Image div */}
         <motion.div 
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -23,7 +22,7 @@ const AboutMe = () => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className="relative w-48 h-48 mx-auto" // Adjusted size and centered
+            className="relative w-48 h-48 mx-auto"
           >
             <Image
               src="/img/ivan cliff.jpeg"
@@ -35,7 +34,6 @@ const AboutMe = () => {
           </motion.div>
         </motion.div>
         
-        {/* Text div */}
         <motion.div 
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -56,7 +54,7 @@ const AboutMe = () => {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="text-lg"
           >
-            My name is Odeke Ivan. I'm passionate about technology and how things work. With over 5 years of experience in coding, I'm a senior developer dedicated to creating innovative solutions. I approach project development with an open mind and a commitment to excellence.
+            I am Odeke Ivan. I'm passionate about technology and how things work. With over 5 years of experience in coding, I'm a senior developer dedicated to creating innovative solutions. I approach project development with an open mind and a commitment to excellence.
           </motion.p>
         </motion.div>
       </motion.div>

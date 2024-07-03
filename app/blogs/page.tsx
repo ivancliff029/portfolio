@@ -1,44 +1,33 @@
-
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 
-const BlogList = () => {
-  // Dummy data for blog posts
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Getting Started with Next.js',
-      content: 'This is the content of the blog post...',
-    },
-    {
-      id: 2,
-      title: 'Deep Dive into React Hooks',
-      content: 'Another interesting blog post...',
-    },
-  ];
-
+const ComingSoon = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-10">Latest Blog Posts</h1>
-      <ul>
-        {blogPosts.map((post) => (
-          <li key={post.id} className="mb-8">
-            <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
-            <p className="text-gray-600 mb-4">{post.content}</p>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
-              Read More
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <h1 className="text-4xl md:text-6xl font-bold text-center mb-8">Coming Soon!</h1>
+        <p className="text-lg md:text-xl text-gray-700 text-center mb-12 max-w-xl">
+          We're preparing something really special for you. Stay tuned for our latest blog updates!
+        </p>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Sign up for updates</h2>
+          <form className="flex flex-col sm:flex-row items-center justify-center">
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="py-2 px-4 mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto border border-gray-300 rounded-md focus:outline-none"
+            />
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none">
+              Subscribe
             </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-    <Footer />
+          </form>
+        </div>
+      </div>
+      <Footer />
     </>
-   
   );
 };
 
-export default BlogList;
+export default ComingSoon;
