@@ -3,19 +3,22 @@ import React, { useState } from 'react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import Image from 'next/image';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-type ProjectBoxProps = {
+interface ProjectBoxProps {
   imageUrl: string;
   description: string;
   githubLink?: string;
   deploymentLink?: string;
   category: string;
-};
+}
 
 const ProjectBox: React.FC<ProjectBoxProps> = ({ imageUrl, description, githubLink, deploymentLink, category }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col h-full">
-      <div className="relative h-40 mb-4">
+    <div className="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col h-full mx-2">
+      <div className="relative w-full h-48 mb-4">
         <Image
           src={imageUrl}
           fill
@@ -24,7 +27,7 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ imageUrl, description, githubLi
           alt="Project"
         />
       </div>
-      <p className="text-lg mb-2">{description}</p>
+      <p className="text-lg mb-4 flex-grow">{description}</p>
       <div className="flex mt-auto">
         {githubLink && (
           <a href={githubLink} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 flex items-center mr-4">
@@ -43,10 +46,36 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ imageUrl, description, githubLi
   );
 };
 
-const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+interface CustomArrowProps {
+  direction: 'next' | 'prev';
+  onClick?: () => void;
+}
 
-  const projects = [
+const CustomArrow: React.FC<CustomArrowProps> = ({ direction, onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`absolute top-1/2 -translate-y-1/2 z-10 bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center focus:outline-none hover:bg-blue-600 transition-colors ${
+        direction === 'next' ? 'right-4' : 'left-4'
+      }`}
+    >
+      {direction === 'next' ? '→' : '←'}
+    </button>
+  );
+};
+
+interface Project {
+  imageUrl: string;
+  description: string;
+  githubLink?: string;
+  deploymentLink?: string;
+  category: string;
+}
+
+const Home: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+  const projects: Project[] = [
     {
       imageUrl: "/img/lei.webp",
       description: "Official website for LEI Engineering and Survey of Oregon",
@@ -72,17 +101,43 @@ const Home = () => {
       githubLink: "https://github.com/ivancliff029/engaato-online",
       deploymentLink: "https://engaato-online.vercel.app",
       category: "NextJS"
-    },
-    // Add more projects as needed
+    }, 
   ];
 
-  // Function to filter projects based on selected category
   const filteredProjects = selectedCategory === 'All' ? projects : projects.filter(project => project.category === selectedCategory);
 
+  const settings: SliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    nextArrow: <CustomArrow direction="next" />,
+    prevArrow: <CustomArrow direction="prev" />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="bg-white">
+      <div className="flex-grow bg-white">
         <div className="flex items-center justify-between bg-blue-300 text-white px-4 py-2">
           <h1 className="text-4xl font-bold mb-4 mt-4 lg:mb-0">Portfolio</h1>
           <div className="flex items-center">
@@ -97,27 +152,35 @@ const Home = () => {
               <option value="Wordpress">Wordpress</option>
               <option value="Python">Python</option>
               <option value="NextJS">NextJS</option>
-              {/* Add more options for other categories */}
             </select>
           </div>
         </div>
         <h1 className='m-5'>Check out Projects I'm managing</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center px-4">
-          {filteredProjects.map((project, index) => (
-            <ProjectBox
-              key={index}
-              imageUrl={project.imageUrl}
-              description={project.description}
-              githubLink={project.githubLink}
-              deploymentLink={project.deploymentLink}
-              category={project.category}
-            />
-          ))}
+        <div className="px-4 pb-8 relative">
+          <Slider {...settings}>
+            {filteredProjects.map((project, index) => (
+              <ProjectBox
+                key={index}
+                imageUrl={project.imageUrl}
+                description={project.description}
+                githubLink={project.githubLink}
+                deploymentLink={project.deploymentLink}
+                category={project.category}
+              />
+            ))}
+          </Slider>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
 export default Home;
+
+import { Settings } from 'react-slick';
+
+interface SliderSettings extends Settings {
+  nextArrow?: React.ReactElement;
+  prevArrow?: React.ReactElement;
+}
