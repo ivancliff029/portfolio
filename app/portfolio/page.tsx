@@ -18,7 +18,7 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ imageUrl, description, githubLi
       <div className="relative h-40 mb-4">
         <Image
           src={imageUrl}
-          layout="fill"
+          fill
           style={{ objectFit: 'cover' }}
           className="rounded-md"
           alt="Project"
