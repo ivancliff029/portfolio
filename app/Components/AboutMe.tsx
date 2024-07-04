@@ -25,7 +25,7 @@ const AboutMe = () => {
             className="relative w-48 h-48 mx-auto"
           >
             <Image
-              src="/img/ivan cliff.jpeg"
+              src="/img/gravatar.png"
               alt="Your Story"
               className="rounded-full"
               layout="fill"
