@@ -1,31 +1,31 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SiPython, SiJavascript, SiC, SiPostgresql } from 'react-icons/si';
+import { SiFirebase, SiPython, SiNodedotjs, SiNextdotjs } from 'react-icons/si';
 
 const features = [
   {
+    name: 'Firebase',
+    description:
+      'Firebase offers a comprehensive suite of cloud-based tools for rapid app development, real-time database management, and seamless authentication.',
+    icon: SiFirebase,
+  },
+  {
     name: 'Python',
     description:
-      'Python’s versatility and readability enable efficient development across various domains, despite moderate speed.',
+      'Pythons versatility, readability, and extensive libraries make it ideal for various applications, from web development to data science and AI.',
     icon: SiPython,
   },
   {
-    name: 'Javascript',
+    name: 'Node.js',
     description:
-      'JavaScript’s client-side execution streamlines web development, balancing efficiency with browser compatibility.',
-    icon: SiJavascript,
+      'Node.js enables server-side JavaScript execution, allowing for scalable and efficient back-end development with a vast ecosystem of packages.',
+    icon: SiNodedotjs,
   },
   {
-    name: 'PostgreSQL',
+    name: 'Next.js',
     description:
-      'PostgreSQL’s robustness and SQL compliance ensure efficient handling of complex data and transactions.',
-    icon: SiPostgresql,
-  },
-  {
-    name: 'C',
-    description:
-      'C’s low-level control and optimization ensure efficient performance, ideal for resource-intensive applications.',
-    icon: SiC,
+      'Next.js simplifies React development with server-side rendering, automatic code splitting, and optimized performance for production-ready applications.',
+    icon: SiNextdotjs,
   },
 ];
 

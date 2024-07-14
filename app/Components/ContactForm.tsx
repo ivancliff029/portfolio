@@ -1,17 +1,18 @@
-import { useState, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { FaLinkedin, FaGithub, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
-const ContactForm = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [name, setName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+const ContactForm: React.FC = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -20,10 +21,24 @@ const ContactForm = () => {
     setSuccess(false);
 
     try {
-      // Implement your email sending logic here
-      console.log("email sent");
-      setSuccess(true);
-      setShowModal(false);
+      const response = await axios.post('/api/send-email', {
+        name,
+        email: userEmail,
+        subject: title,
+        message
+      });
+
+      if (response.data.success) {
+        setSuccess(true);
+        setShowModal(false);
+        // Clear form fields
+        setName('');
+        setUserEmail('');
+        setTitle('');
+        setMessage('');
+      } else {
+        throw new Error('Failed to send email');
+      }
     } catch (err) {
       setError('Failed to send email. Please try again.');
     } finally {
