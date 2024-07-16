@@ -46,7 +46,7 @@ const AboutMe = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="text-3xl font-bold mb-4"
           >
-            About Me
+            About Odeke
           </motion.h2>
           <motion.p
             initial={{ y: 20, opacity: 0 }}
