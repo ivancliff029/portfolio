@@ -26,7 +26,7 @@ const AboutMe = () => {
           >
             <Image
               src="/img/gravatar.png"
-              alt="Your Story"
+              alt="Odeke Ivan"
               className="rounded-full"
               fill
               objectFit="cover"
@@ -54,7 +54,7 @@ const AboutMe = () => {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="text-lg mb-4"
           >
-            I am Odeke Ivan. I'm a Computer Scientist focusing my research in AI and IOT technology. With over 5 years of experience in coding, I'm a senior developer dedicated to creating innovative solutions. I approach project development with an open mind and a commitment to excellence.
+            I am Odeke Ivan, a Computer Scientist focusing my research in AI and IOT technology. With over 5 years of experience in coding, I'm a senior developer dedicated to creating innovative solutions. I approach project development with an open mind and a commitment to excellence.
           </motion.p>
           <motion.div
             initial={{ y: 20, opacity: 0 }}
