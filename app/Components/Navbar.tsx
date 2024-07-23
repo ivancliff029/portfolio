@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 import { useState } from 'react';
-import { FaHome, FaBriefcase, FaBlog } from 'react-icons/fa';
+import { FaHome, FaBriefcase, FaBlog, FaStar } from 'react-icons/fa'; // Import FaStar for Reviews page
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +10,7 @@ export default function Navbar() {
     { href: '/', label: 'Home', icon: FaHome },
     { href: '/portfolio', label: 'Portfolio', icon: FaBriefcase },
     { href: '/blogs', label: 'Blog', icon: FaBlog },
+    { href: '/reviews', label: 'Reviews', icon: FaStar }, // Added Reviews link
   ];
 
   return (
