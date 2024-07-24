@@ -4,16 +4,19 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
-import { db } from '../lib/firebase'; // Import Firestore
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore"; // Import Firestore methods
+import { db } from '../lib/firebase';
+import { collection, addDoc, query, where, getDocs, serverTimestamp, Timestamp } from "firebase/firestore";
 
 type Review = {
+  id: string;
   title: string;
   reviewMessage: string;
   name: string;
   email: string;
+  companyName: string;
   rating: number;
   status: string;
+  createdAt: Timestamp | null;
 };
 
 const Reviews = () => {
@@ -22,6 +25,7 @@ const Reviews = () => {
   const [reviewMessage, setReviewMessage] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [rating, setRating] = useState(0);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [statusType, setStatusType] = useState<"success" | "error" | null>(null);
@@ -32,7 +36,18 @@ const Reviews = () => {
       const querySnapshot = await getDocs(q);
       const approvedReviews: Review[] = [];
       querySnapshot.forEach((doc) => {
-        approvedReviews.push(doc.data() as Review);
+        const data = doc.data();
+        approvedReviews.push({
+          id: doc.id,
+          title: data.title,
+          reviewMessage: data.reviewMessage,
+          name: data.name,
+          email: data.email,
+          companyName: data.companyName,
+          rating: data.rating,
+          status: data.status,
+          createdAt: data.createdAt ? data.createdAt : null
+        });
       });
       setReviews(approvedReviews);
     };
@@ -42,13 +57,23 @@ const Reviews = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newReview = { title, reviewMessage, name, email, rating, status: 'pending' };
+    const newReview = { 
+      title, 
+      reviewMessage, 
+      name, 
+      email, 
+      companyName, 
+      rating, 
+      status: 'pending',
+      createdAt: serverTimestamp()
+    };
     try {
       await addDoc(collection(db, "reviews"), newReview);
       setTitle('');
       setReviewMessage('');
       setName('');
       setEmail('');
+      setCompanyName('');
       setRating(0);
       setStatusMessage("Review submitted successfully!");
       setStatusType("success");
@@ -57,6 +82,11 @@ const Reviews = () => {
       setStatusMessage("Failed to submit review. Please try again.");
       setStatusType("error");
     }
+  };
+
+  const formatDate = (timestamp: Timestamp | null) => {
+    if (!timestamp) return 'Date not available';
+    return timestamp.toDate().toLocaleString();
   };
 
   return (
@@ -114,6 +144,17 @@ const Reviews = () => {
             />
           </div>
           <div className="mb-5">
+            <label htmlFor="companyName" className="block text-sm font-medium text-gray-700">Company Name</label>
+            <input
+              type="text"
+              id="companyName"
+              className="mt-1 p-3 w-full border border-gray-300 rounded-md"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-5">
             <label className="block text-sm font-medium text-gray-700">Rating</label>
             <div className="flex space-x-1">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -137,11 +178,11 @@ const Reviews = () => {
         <div className="space-y-6">
           {reviews.length > 0 ? (
             <ul>
-              {reviews.map((review, index) => (
-                <li key={index} className="p-6 border border-gray-300 rounded-md shadow-sm bg-white mb-8">
+              {reviews.map((review) => (
+                <li key={review.id} className="p-6 border border-gray-300 rounded-md shadow-sm bg-white mb-8">
                   <h3 className="text-lg font-semibold mb-2">{review.title}</h3>
                   <p className="mb-2">{review.reviewMessage}</p>
-                  <div className="flex items-center">
+                  <div className="flex items-center mb-2">
                     <span className="font-semibold mr-2">{review.name}</span>
                     <div className="flex space-x-1">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -151,6 +192,10 @@ const Reviews = () => {
                       ))}
                     </div>
                   </div>
+                  <p className="text-sm text-gray-600 mb-1">Company: {review.companyName}</p>
+                  <p className="text-sm text-gray-500">
+                    Posted on: {formatDate(review.createdAt)}
+                  </p>
                 </li>
               ))}
             </ul>
