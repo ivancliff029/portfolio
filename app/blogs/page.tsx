@@ -5,6 +5,7 @@ import Footer from '../Components/Footer';
 import { FaClock, FaUser, FaHeart, FaComment } from 'react-icons/fa';
 import { collection, getDocs, QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import Spinner from '../Components/Spinner';
 
 interface BlogPost {
   id: string;
@@ -46,7 +47,7 @@ const BlogPosts: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   return (
