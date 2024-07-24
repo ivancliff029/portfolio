@@ -78,7 +78,7 @@ const Home: React.FC = () => {
   const projects: Project[] = [
     {
       imageUrl: "/img/lei.webp",
-      description: "Official website for LEI Engineering and Survey of Oregon",
+      description: "LEI Engineering and Survey of Oregon",
       category: "Wordpress",
       deploymentLink: "https://leiengineering.com"
     },
@@ -90,7 +90,7 @@ const Home: React.FC = () => {
     },
     {
       imageUrl: "/img/journalx.png",
-      description: "AI Journaling app designed in Javascript",
+      description: "AI Journaling app",
       githubLink: "https://github.com/ivancliff029/journalx",
       deploymentLink: "https://journalx.vercel.app",
       category: "NextJS"
@@ -101,6 +101,12 @@ const Home: React.FC = () => {
       githubLink: "https://github.com/ivancliff029/engaato-online",
       deploymentLink: "https://engaato-online.vercel.app",
       category: "NextJS"
+    }, 
+    {
+      imageUrl: "/img/biashara.png",
+      description: "Biashara Solutions",
+      deploymentLink: "https://biasharasolutions.com",
+      category: "Wordpress"
     }, 
   ];
 
