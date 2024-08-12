@@ -1,6 +1,7 @@
 // app/layout.tsx
 import React from 'react';
 import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from "@vercel/analytics/react"
 import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -19,6 +20,7 @@ export default function RootLayout({
           publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
         >
           {children}
+          <Analytics />
         </ClerkProvider>
       </body>
     </html>
