@@ -55,6 +55,19 @@ const AboutMe = () => {
             className="text-lg mb-4 text-gray-800 dark:text-gray-200"
           >
             I am Odeke Ivan, a Computer Scientist focusing my research in AI and IoT technology. I am a developer with over 8 years of programming, I'm dedicated to creating innovative solutions and I approach project development with an open mind and a commitment to excellence.
+            <motion.p 
+                className="mt-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
+                <a
+                  href="/work-with-me"
+                  className="bg-white text-blue-500 py-2 px-4 rounded-full font-semibold"
+                >
+                  Work with me
+                </a>
+              </motion.p>
           </motion.p>
         </motion.div>
       </motion.div>
