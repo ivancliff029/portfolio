@@ -144,8 +144,8 @@ export default function BlogPostPage() {
   return (
     <div className="bg-white">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-        <p className="text-gray-600 mb-4">
+        <h1 className="text-3xl font-bold mb-4 dark:text-gray-100 ml-4">{post.title}</h1>
+        <p className="text-gray-600 mb-4 dark:text-gray-100 ml-4">
           By {post.author} on {post.createdAt.toDate().toLocaleDateString()}
         </p>
         <div className="prose lg:prose-xl mb-10" dangerouslySetInnerHTML={{ __html: post.content }}></div>

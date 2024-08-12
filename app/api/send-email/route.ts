@@ -8,42 +8,44 @@ interface EmailData {
   message: string;
 }
 
-export async function POST(request: Request) {
-  const body: EmailData = await request.json();
-  const { name, email, subject, message } = body;
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
-  // Create a transporter using SMTP
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Use TLS
-    auth: {
-      user: process.env.EMAIL_USER, // Your Gmail address
-      pass: process.env.EMAIL_PASS // Your Gmail app password
-    },
+async function sendEmail(emailData: EmailData) {
+  const { name, email, subject, message } = emailData;
+
+  const info = await transporter.sendMail({
+    from: `"Your Website" <${process.env.EMAIL_USER}>`,
+    to: "odekeivancliff@gmail.com",
+    replyTo: email,
+    subject: `New contact form submission: ${subject}`,
+    text: `
+      Name: ${name}
+      Email: ${email}
+      Subject: ${subject}
+      Message: ${message}
+    `,
+    html: `
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong> ${message}</p>
+    `,
   });
 
-  try {
-    // Send email
-    await transporter.sendMail({
-      from: `"Your Website" <${process.env.EMAIL_USER}>`, // sender address
-      to: "odekeivancliff@gmail.com", // your email address
-      replyTo: email, // set reply-to as the sender's email
-      subject: `New contact form submission: ${subject}`,
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Subject: ${subject}
-        Message: ${message}
-      `,
-      html: `
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong> ${message}</p>
-      `,
-    });
+  console.log("Message sent: %s", info.messageId);
+  return info;
+}
 
+export async function POST(request: Request) {
+  try {
+    const body: EmailData = await request.json();
+    await sendEmail(body);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error sending email:', error);
