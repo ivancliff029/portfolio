@@ -6,6 +6,7 @@ import Footer from './Components/Footer';
 import ContactForm from './Components/ContactForm';
 import AboutMe from './Components/AboutMe';
 import Technologies from './Components/Technologies';
+import NewsletterSignup from './Components/Newsletter';
 import AnimatedBackground from './Components/AnimatedBackground';
 
 const Home = () => {
@@ -26,7 +27,7 @@ const Home = () => {
               <p className="text-lg">
                 You are either a 0 or a 1
               </p>
-              <motion.div 
+              <motion.p 
                 className="mt-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -38,7 +39,7 @@ const Home = () => {
                 >
                   View Portfolio
                 </a>
-              </motion.div>
+              </motion.p>
             </motion.div>
             <div className="hidden md:block">
               
@@ -48,6 +49,7 @@ const Home = () => {
       </div>
       <AboutMe />
       <Technologies />
+      <NewsletterSignup />
       <ContactForm />
       <Footer />
     </>
