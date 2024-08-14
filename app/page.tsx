@@ -8,6 +8,7 @@ import AboutMe from './Components/AboutMe';
 import Technologies from './Components/Technologies';
 import NewsletterSignup from './Components/Newsletter';
 import AnimatedBackground from './Components/AnimatedBackground';
+import Blogs from './Components/Blogs';
 
 const Home = () => {
   return (
@@ -51,6 +52,7 @@ const Home = () => {
       <Technologies />
       <NewsletterSignup />
       <ContactForm />
+      <Blogs />
       <Footer />
     </>
   );
