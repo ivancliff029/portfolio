@@ -138,34 +138,34 @@ export default function BlogPostPage() {
   }
 
   if (!post) {
-    return <div className="container mx-auto px-4 py-8">Post not found</div>;
+    return <div className="container mx-auto px-4 py-8 dark:text-gray-100">Post not found</div>;
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4 dark:text-gray-100 ml-4">{post.title}</h1>
-        <p className="text-gray-600 mb-4 dark:text-gray-100 ml-4">
+        <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100 ml-4">{post.title}</h1>
+        <p className="text-gray-600 dark:text-gray-300 mb-4 ml-4">
           By {post.author} on {post.createdAt.toDate().toLocaleDateString()}
         </p>
-        <div className="prose lg:prose-xl mb-10" dangerouslySetInnerHTML={{ __html: post.content }}></div>
+        <div className="prose lg:prose-xl mb-10 dark:prose-invert" dangerouslySetInnerHTML={{ __html: post.content }}></div>
 
         <div className="flex space-x-4 mb-6">
-          <button onClick={handleLike} className="flex items-center space-x-2 text-blue-600">
+          <button onClick={handleLike} className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
             <FaHeart /> <span>{likes} Likes</span>
           </button>
-          <button onClick={handleShare} className="flex items-center space-x-2 text-green-600">
+          <button onClick={handleShare} className="flex items-center space-x-2 text-green-600 dark:text-green-400">
             <FaShare /> <span>Share</span>
           </button>
         </div>
 
         <section>
-          <h2 className="text-2xl font-bold mb-4">Comments</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Comments</h2>
           {isLoaded ? (
             <>
               <form onSubmit={handleCommentSubmit} className="mb-4">
                 <textarea
-                  className="w-full p-2 border border-gray-300 rounded mb-2"
+                  className="w-full p-2 border border-gray-300 rounded mb-2 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
                   placeholder="Write a comment..."
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
@@ -173,7 +173,7 @@ export default function BlogPostPage() {
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                   disabled={commentLoading}
                 >
                   {commentLoading ? 'Posting...' : 'Post Comment'}
@@ -185,12 +185,12 @@ export default function BlogPostPage() {
           )}
           <div>
             {comments.length === 0 ? (
-              <p>No comments yet. Be the first to comment!</p>
+              <p className="text-gray-700 dark:text-gray-300">No comments yet. Be the first to comment!</p>
             ) : (
               comments.map((comment) => (
-                <div key={comment.id} className="mb-4 border-b pb-2 ">
-                  <p className="text-gray-700">{comment.content}</p>
-                  <p className="text-gray-500 text-sm">
+                <div key={comment.id} className="mb-4 border-b pb-2 dark:border-gray-700">
+                  <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
                     Posted by {comment.username || 'Anonymous'} on {comment.createdAt.toDate().toLocaleDateString()}
                   </p>
                 </div>
@@ -201,12 +201,12 @@ export default function BlogPostPage() {
 
         {showAuthModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Please Sign In</h2>
-              <p className="mb-4">You must be logged in to engage with this post.</p>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Please Sign In</h2>
+              <p className="mb-4 text-gray-700 dark:text-gray-300">You must be logged in to engage with this post.</p>
               <RedirectToSignIn />
               <button
-                className="mt-4 px-4 py-2 bg-gray-300 rounded"
+                className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100 rounded hover:bg-gray-400 dark:hover:bg-gray-700"
                 onClick={() => setShowAuthModal(false)}
               >
                 Close
@@ -217,17 +217,17 @@ export default function BlogPostPage() {
 
         {showShareModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Share this post</h2>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Share this post</h2>
               <button
                 onClick={copyToClipboard}
-                className="px-4 py-2 bg-blue-600 text-white rounded mb-2 w-full"
+                className="px-4 py-2 bg-blue-600 text-white rounded mb-2 w-full hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
               >
                 Copy Link
               </button>
               {/* Add social media share buttons here */}
               <button
-                className="mt-4 px-4 py-2 bg-gray-300 rounded w-full"
+                className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100 rounded w-full hover:bg-gray-400 dark:hover:bg-gray-700"
                 onClick={() => setShowShareModal(false)}
               >
                 Close
