@@ -138,19 +138,21 @@ export default function BlogPostPage() {
   }
 
   if (!post) {
-    return <div className="container mx-auto px-4 py-8 dark:text-gray-100">Post not found</div>;
+    return <div className="container mx-auto px-4 py-8 text-center dark:text-gray-100">Post not found</div>;
   }
 
   return (
     <div className="bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100 ml-4">{post.title}</h1>
-        <p className="text-gray-600 dark:text-gray-300 mb-4 ml-4">
-          By {post.author} on {post.createdAt.toDate().toLocaleDateString()}
-        </p>
-        <div className="prose lg:prose-xl mb-10 dark:prose-invert" dangerouslySetInnerHTML={{ __html: post.content }}></div>
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{post.title}</h1>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
+            By {post.author} on {post.createdAt.toDate().toLocaleDateString()}
+          </p>
+        </div>
+        <div className="prose lg:prose-xl mb-10 mx-auto dark:prose-invert" dangerouslySetInnerHTML={{ __html: post.content }}></div>
 
-        <div className="flex space-x-4 mb-6">
+        <div className="flex justify-center space-x-4 mb-6">
           <button onClick={handleLike} className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
             <FaHeart /> <span>{likes} Likes</span>
           </button>
@@ -159,7 +161,7 @@ export default function BlogPostPage() {
           </button>
         </div>
 
-        <section>
+        <section className="text-center">
           <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Comments</h2>
           {isLoaded ? (
             <>
@@ -188,7 +190,7 @@ export default function BlogPostPage() {
               <p className="text-gray-700 dark:text-gray-300">No comments yet. Be the first to comment!</p>
             ) : (
               comments.map((comment) => (
-                <div key={comment.id} className="mb-4 border-b pb-2 dark:border-gray-700">
+                <div key={comment.id} className="mb-4 border-b pb-2 dark:border-gray-700 text-left">
                   <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
                   <p className="text-gray-500 dark:text-gray-400 text-sm">
                     Posted by {comment.username || 'Anonymous'} on {comment.createdAt.toDate().toLocaleDateString()}
