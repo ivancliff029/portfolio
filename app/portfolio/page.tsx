@@ -98,6 +98,12 @@ const Home: React.FC = () => {
     {
       imageUrl: "/img/engaato.png",
       description: "Online Sneaker shopping App",
+      deploymentLink: "https://koozali.zartman.net/",
+      category: "NextJS"
+    }, 
+    {
+      imageUrl: "/img/koozali.png",
+      description: "Official Site for Koozali SME",
       githubLink: "https://github.com/ivancliff029/engaato-online",
       deploymentLink: "https://engaato-online.vercel.app",
       category: "NextJS"
