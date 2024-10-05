@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import HalfScreen from '../Components/HalfScreen';
 
 interface ProjectBoxProps {
   imageUrl: string;
@@ -99,7 +100,7 @@ const Home: React.FC = () => {
       imageUrl: "/img/engaato.png",
       description: "Online Sneaker shopping App",
       deploymentLink: "https://koozali.zartman.net/",
-      category: "NextJS"
+      category: "Wordpress"
     }, 
     {
       imageUrl: "/img/koozali.png",
@@ -149,9 +150,12 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
+      <HalfScreen 
+        backgroundImage="/img/portfolio.jpg" 
+        heading="My Portfolio" 
+      />
       <div className="flex-grow bg-white">
         <div className="flex items-center justify-between bg-gray-300 text-white px-4 py-2">
-          <h1 className="text-4xl font-bold mb-4 mt-4 lg:mb-0">Portfolio</h1>
           <div className="flex items-center">
             <label htmlFor="category" className="mr-2 text-black">Filter by Category:</label>
             <select
