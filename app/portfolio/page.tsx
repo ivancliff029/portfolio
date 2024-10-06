@@ -157,6 +157,7 @@ const Home: React.FC = () => {
       <div className="flex-grow bg-white">
         <div className="flex items-center justify-between bg-gray-300 text-white px-4 py-2">
           <div className="flex items-center">
+          <h1 className='m-5 text-2xl'>Check out Projects I'm managing</h1>
             <label htmlFor="category" className="mr-2 text-black">Filter by Category:</label>
             <select
               id="category"
@@ -171,7 +172,6 @@ const Home: React.FC = () => {
             </select>
           </div>
         </div>
-        <h1 className='m-5'>Check out Projects I'm managing</h1>
         <div className="px-4 pb-8 relative">
           <Slider {...settings}>
             {filteredProjects.map((project, index) => (
