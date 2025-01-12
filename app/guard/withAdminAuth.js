@@ -1,20 +1,13 @@
-// components/guards/withAdminAuth.tsx
+// components/guards/withAdminAuth.js
 "use client";
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
-import { getDoc, doc } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
-import type { ComponentType } from 'react';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
+import { auth, db } from "../lib/firebase";
 
-interface WithAdminAuthProps {
-  [key: string]: any;
-}
-
-export default function withAdminAuth<P extends WithAdminAuthProps>(
-  WrappedComponent: ComponentType<P>
-) {
-  return function WithAdminAuthWrapper(props: P) {
+export default function withAdminAuth(WrappedComponent) {
+  return function WithAdminAuthWrapper(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthorized, setIsAuthorized] = useState(false);
     const router = useRouter();
@@ -23,23 +16,23 @@ export default function withAdminAuth<P extends WithAdminAuthProps>(
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
         try {
           if (!user) {
-            router.push('/login');
+            router.push("/login");
             return;
           }
 
           // Check if user has admin role
           const userDoc = await getDoc(doc(db, "users", user.uid));
-          const isAdmin = userDoc.exists() && userDoc.data()?.role === 'admin';
+          const isAdmin = userDoc.exists() && userDoc.data()?.role === "admin";
 
           if (!isAdmin) {
-            router.push('/'); // Redirect non-admin users to home
+            router.push("/"); // Redirect non-admin users to home
             return;
           }
 
           setIsAuthorized(true);
         } catch (error) {
-          console.error('Error checking admin status:', error);
-          router.push('/');
+          console.error("Error checking admin status:", error);
+          router.push("/");
         } finally {
           setIsLoading(false);
         }

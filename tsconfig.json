@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/guard/withAdminAuth.js"  ],
   "exclude": [
     "node_modules"
   ]
