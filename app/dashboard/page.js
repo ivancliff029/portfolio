@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { collection, getDocs, updateDoc, deleteDoc, doc, addDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import withAdminAuth from "../guard/withAdminAuth";
 
 // TodoForm Component
 const TodoForm = ({ initialData, onClose, onSuccess }) => {
@@ -489,4 +490,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default withAdminAuth(DashboardPage);
