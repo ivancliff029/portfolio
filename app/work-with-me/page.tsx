@@ -22,7 +22,7 @@ const serviceTiers: ServiceTier[] = [
     id: "basic-digital-presence",
     name: "Basic Digital Presence",
     description: "Establish your online foundation",
-    price: 1000000,
+    price: 1200000,
     icon: <FaGlobe className="h-10 w-10 text-blue-600" />,
     features: [
       "Professional Website Design",
@@ -36,7 +36,7 @@ const serviceTiers: ServiceTier[] = [
     id: "growth-digital-strategy",
     name: "Growth Digital Strategy",
     description: "Comprehensive digital marketing package",
-    price: 1000000,
+    price: 1200000,
     recurring: 200000,
     mostPopular: true,
     icon: <FaGear className="h-10 w-10 text-green-600" />,
