@@ -1,100 +1,214 @@
-// pages/services/[id].tsx
-
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { usePathname } from 'next/navigation';
-import { FaGlobe, FaMobileAlt, FaCog, FaChartBar, FaCode } from "react-icons/fa";
+import { usePathname, useSearchParams } from 'next/navigation';
+import { 
+  FaGlobe, 
+  FaGear, 
+  FaChartLine, 
+  FaBullseye, 
+  FaPencil 
+} from "react-icons/fa6";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import ContactForm from "../../Components/ContactForm";
 
-interface Service {
+interface ServiceTier {
   id: string;
   name: string;
   description: string;
-  priceRange: string;
+  price: number;
+  recurring?: number;
   icon: React.ReactNode;
-  fullDescription: string;
+  features: string[];
+  technicalDetails: string[];
+  deliverables: string[];
+  processSummary: string[];
 }
 
-const services: Service[] = [
+const serviceTiers: ServiceTier[] = [
   {
-    id: "website-design",
-    name: "Website Design",
-    description: "Professional and responsive website design tailored to your needs.",
-    priceRange: "$600 to $1000",
-    icon: <FaGlobe className="h-8 w-8 text-blue-500" />,
-    fullDescription: "Our website design service offers custom, responsive designs that captivate your audience and drive conversions. We focus on user experience, modern aesthetics, and seamless functionality across all devices."
+    id: "basic-digital-presence",
+    name: "Basic Digital Presence",
+    description: "Establish your online foundation",
+    price: 1000000,
+    icon: <FaGlobe className="h-10 w-10 text-blue-600" />,
+    features: [
+      "Professional Website Design",
+      "Responsive Mobile Layout",
+      "5 Pages of Content",
+      "Basic SEO Setup",
+      "1 Month Hosting Included"
+    ],
+    technicalDetails: [
+      "Responsive design using modern web technologies",
+      "Mobile-first approach",
+      "Optimized page load speeds",
+      "Cross-browser compatibility"
+    ],
+    deliverables: [
+      "Fully functional website",
+      "Source code repository",
+      "1-hour training session",
+      "30-day post-launch support"
+    ],
+    processSummary: [
+      "Initial consultation and requirements gathering",
+      "Design mockup and client approval",
+      "Development and implementation",
+      "Testing and quality assurance",
+      "Launch and initial optimization"
+    ]
   },
   {
-    id: "website-maintenance-marketing",
-    name: "Website Maintenance & Marketing",
-    description: "Ongoing maintenance and marketing services to keep your site optimized.",
-    priceRange: "$100 to $500",
-    icon: <FaCog className="h-8 w-8 text-green-500" />,
-    fullDescription: "Keep your website running smoothly and effectively with our maintenance and marketing services. We handle updates, security, and implement marketing strategies to boost your online presence and drive traffic."
+    id: "growth-digital-strategy",
+    name: "Growth Digital Strategy",
+    description: "Comprehensive digital marketing package",
+    price: 1000000,
+    recurring: 200000,
+    icon: <FaGear className="h-10 w-10 text-green-600" />,
+    features: [
+      "Website Design",
+      "Monthly Website Maintenance",
+      "SEO Optimization",
+      "Monthly Performance Reports",
+      "Content Updates",
+      "Technical Support"
+    ],
+    technicalDetails: [
+      "Continuous performance monitoring",
+      "Security updates and patches",
+      "Content management system integration",
+      "Analytics and tracking setup"
+    ],
+    deliverables: [
+      "Monthly performance dashboard",
+      "Detailed SEO and traffic reports",
+      "Website health check",
+      "Quarterly strategy review"
+    ],
+    processSummary: [
+      "Initial website audit",
+      "Strategic planning session",
+      "Monthly maintenance and optimization",
+      "Ongoing performance tracking",
+      "Quarterly improvement recommendations"
+    ]
   },
   {
-    id: "search-engine-optimization",
-    name: "Search Engine Optimization",
-    description: "Improve your site's ranking with our expert SEO services.",
-    priceRange: "$100 to $500",
-    icon: <FaChartBar className="h-8 w-8 text-purple-500" />,
-    fullDescription: "Our SEO services are designed to improve your website's visibility in search engine results. We use proven techniques to optimize your content, structure, and backlink profile, helping you reach your target audience more effectively."
-  },
-  {
-    id: "mobile-app-design",
-    name: "Mobile App Design",
-    description: "Innovative and user-friendly mobile app design.",
-    priceRange: "$600 to $2000",
-    icon: <FaMobileAlt className="h-8 w-8 text-yellow-500" />,
-    fullDescription: "Create stunning, intuitive mobile apps that users love. Our mobile app design service covers everything from concept to launch, ensuring your app stands out in the crowded app marketplace."
-  },
-  {
-    id: "ai-algorithm-design",
-    name: "AI Algorithm Design",
-    description: "Custom AI algorithms designed to meet your specific needs.",
-    priceRange: "$500 to $1000",
-    icon: <FaCode className="h-8 w-8 text-red-500" />,
-    fullDescription: "Harness the power of artificial intelligence with our custom AI algorithm design service. We develop tailored AI solutions that can automate processes, provide insights, and solve complex problems specific to your business needs."
-  },
+    id: "advanced-digital-marketing",
+    name: "Advanced Digital Marketing",
+    description: "Comprehensive digital marketing and content strategy",
+    price: 500000,
+    recurring: 300000,
+    icon: <FaChartLine className="h-10 w-10 text-purple-600" />,
+    features: [
+      "Google Ads Management",
+      "Monthly Blog Content Creation",
+      "Advanced SEO Strategies",
+      "Social Media Integration",
+      "Quarterly Strategy Review",
+      "Conversion Tracking"
+    ],
+    technicalDetails: [
+      "Advanced keyword research",
+      "Audience segmentation",
+      "Conversion rate optimization",
+      "Multi-channel marketing integration"
+    ],
+    deliverables: [
+      "Monthly content calendar",
+      "Comprehensive marketing report",
+      "Ad performance dashboard",
+      "SEO improvement recommendations"
+    ],
+    processSummary: [
+      "Market and competitor analysis",
+      "Strategy development",
+      "Content creation and distribution",
+      "Continuous performance optimization",
+      "Quarterly strategic pivot recommendations"
+    ]
+  }
 ];
 
 const ServicePage: React.FC = () => {
-  const [service, setService] = useState<Service | null>(null);
+  const [service, setService] = useState<ServiceTier | null>(null);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    const id = pathname.split('/').pop();
-    const foundService = services.find(s => s.id === id);
+    const serviceId = searchParams.get('service');
+    const foundService = serviceTiers.find(s => s.id === serviceId);
     setService(foundService || null);
-  }, [pathname]);
+  }, [searchParams]);
 
   if (!service) {
-    return <div>Service not found</div>;
+    return (
+      <div className="container mx-auto py-16 text-center">
+        <p className="text-2xl text-gray-600">Service not found</p>
+      </div>
+    );
   }
 
   return (
     <>
       <Navbar />
       <div className="container mx-auto py-16 px-8">
-        <h1 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-gray-100">
-          {service.name}
-        </h1>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          <div className="flex items-center mb-4">
-            {service.icon}
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 ml-4">
-              {service.name}
-            </h2>
+        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div className="p-8">
+            <div className="flex items-center mb-6">
+              {service.icon}
+              <h1 className="text-3xl font-bold ml-4 text-gray-900 dark:text-gray-100">
+                {service.name}
+              </h1>
+            </div>
+
+            <p className="text-gray-700 dark:text-gray-300 mb-6">
+              {service.description}
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Key Features</h2>
+                <ul className="space-y-2">
+                  {service.features.map((feature, index) => (
+                    <li key={index} className="flex items-center text-gray-700 dark:text-gray-300">
+                      <svg className="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Pricing</h2>
+                <p className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">
+                  {new Intl.NumberFormat('en-UG', { style: 'currency', currency: 'UGX' }).format(service.price)}
+                </p>
+                {service.recurring && (
+                  <p className="text-gray-600">
+                    + {new Intl.NumberFormat('en-UG', { style: 'currency', currency: 'UGX' }).format(service.recurring)} monthly
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold mb-4">Process Overview</h2>
+              <ol className="border-l-2 border-blue-500">
+                {service.processSummary.map((step, index) => (
+                  <li key={index} className="mb-4 ml-4">
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-gray-700 dark:text-gray-300">{step}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
-            {service.fullDescription}
-          </p>
-          <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
-            Price Range: {service.priceRange}
-          </p>
         </div>
       </div>
       <ContactForm />
