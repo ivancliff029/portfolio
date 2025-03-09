@@ -14,40 +14,37 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className="relative h-screen overflow-hidden">
+      <section className="relative h-screen flex items-center justify-center">
         <AnimatedBackground />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-          <div className="flex w-full h-full items-center justify-between px-8">
-            <motion.div 
-              className="max-w-md"
+          <div className="flex w-full h-full items-center justify-center px-8">
+            <motion.div
+              className="max-w-md text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
             >
-              <h1 className="text-4xl font-bold mb-4">Welcome to My World</h1>
-              <p className="text-lg">
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to My World</h1>
+              <p className="text-lg md:text-2xl text-gray-300">
                 You are either a 0 or a 1
               </p>
-              <motion.p 
+              <motion.div
                 className="mt-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
               >
                 <a
                   href="/portfolio"
-                  className="bg-white text-blue-500 py-2 px-4 rounded-full font-semibold"
+                  className="inline-block px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all"
                 >
                   View Portfolio
                 </a>
-              </motion.p>
+              </motion.div>
             </motion.div>
-            <div className="hidden md:block">
-              
-            </div>
           </div>
         </div>
-      </div>
+      </section>
       <AboutMe />
       <Technologies />
       <NewsletterSignup />

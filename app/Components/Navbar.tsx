@@ -71,7 +71,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-indigo-600 text-white">
+    <nav className="bg-blue-600 text-white">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image 
@@ -91,7 +91,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 type="button"
-                className="flex text-sm rounded-full focus:ring-4 focus:ring-indigo-300"
+                className="flex text-sm rounded-full focus:ring-4 focus:ring-blue-300"
                 id="user-menu-button"
                 aria-expanded={isUserMenuOpen}
               >
@@ -139,7 +139,7 @@ export default function Navbar() {
           ) : (
             <Link 
               href="/login"
-              className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5"
             >
               Login
             </Link>
@@ -148,7 +148,7 @@ export default function Navbar() {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
             aria-controls="navbar-user"
             aria-expanded={isMenuOpen}
           >
@@ -160,13 +160,13 @@ export default function Navbar() {
         </div>
 
         <div className={`items-center justify-center w-full md:flex md:w-auto md:order-1 ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-user">
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-indigo-600 md:justify-center">
+          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-blue-600 md:justify-center">
             {navItems.map((item, index) => (
               <li key={index}>
                 <Link 
                   href={item.href} 
-                  className={`flex items-center py-2 px-3 rounded hover:bg-indigo-700 md:hover:bg-transparent md:hover:text-indigo-200 md:p-0 ${
-                    index === 0 ? 'bg-indigo-700 text-white md:bg-transparent md:text-white' : ''
+                  className={`flex items-center py-2 px-3 rounded hover:bg-blue-700 md:hover:bg-transparent md:hover:text-blue-200 md:p-0 ${
+                    index === 0 ? 'bg-blue-700 text-white md:bg-transparent md:text-white' : ''
                   }`}
                   aria-current={index === 0 ? 'page' : undefined}
                 >

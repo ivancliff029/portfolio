@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "app/guard/withAdminAuth.js", "app/portfolio/page.js", "app/Components/HalfScreen.js"  ],
+, "app/guard/withAdminAuth.js", "app/portfolio/page.js", "app/Components/HalfScreen.js", "app/Components/Technologies.js", "app/Components/AboutMe.js", "app/Components/Newsletter.js", "app/Components/ContactForm.js", "app/page.js", "app/Components/Blogs.js", "app/Components/BlogPosts.js", "app/reviews/page.js"  ],
   "exclude": [
     "node_modules"
   ]
