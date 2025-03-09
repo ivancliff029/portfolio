@@ -1,10 +1,14 @@
 "use client"
-import React, { useState } from 'react';
+import React from 'react';
 import { Coffee } from 'lucide-react';
-import PaymentModal from './PaymentModal';
+import { useRouter } from 'next/navigation';
 
 const BuyMeCoffeeSection = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleBuyMeCoffeeClick = () => {
+    router.push('/buy-me-coffee');
+  };
 
   return (
     <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white py-16 px-4">
@@ -18,7 +22,7 @@ const BuyMeCoffeeSection = () => {
           </div>
           <div className="md:w-1/3 flex justify-center">
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleBuyMeCoffeeClick}
               className="bg-white text-amber-600 px-6 py-3 rounded-lg font-bold flex items-center shadow-lg hover:bg-gray-100 transition-colors"
             >
               <Coffee className="mr-2 h-5 w-5" />
@@ -27,7 +31,6 @@ const BuyMeCoffeeSection = () => {
           </div>
         </div>
       </div>
-      <PaymentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
