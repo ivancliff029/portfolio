@@ -25,7 +25,7 @@ const AboutMe = () => {
             className="relative w-48 h-48 mx-auto"
           >
             <Image
-              src="/img/gravatar.png"
+              src="/img/me.png"
               alt="Odeke Ivan"
               className="rounded-full"
               fill
