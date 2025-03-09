@@ -10,11 +10,20 @@ import {
   FaChartLine,
   FaList,
   FaMoneyBill,
-  FaInfoCircle
+  FaInfoCircle,
+  FaArrowLeft,
+  FaArrowRight
 } from "react-icons/fa";
 import { collection, getDocs, updateDoc, deleteDoc, doc, addDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import withAdminAuth from "../guard/withAdminAuth";
+import { 
+  ClipboardList, 
+  CheckCircle, 
+  Clock, 
+  AlertCircle, 
+  TrendingUp 
+} from "lucide-react";
 
 // TodoForm Component
 const TodoForm = ({ initialData, onClose, onSuccess }) => {
@@ -130,60 +139,61 @@ const TodoForm = ({ initialData, onClose, onSuccess }) => {
 
 // Task Details Modal Component
 const TaskDetailsModal = ({ task, onClose }) => {
-    if (!task) return null;
-  
-    return (
-      <div className="fixed inset-0 z-50 overflow-y-auto">
-        <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center">
-          <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={onClose}></div>
-          <div className="relative inline-block w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Task Details</h3>
-              <button
-                onClick={onClose}
-                className="text-gray-400 hover:text-gray-500 transition-colors"
-              >
-                <FaTimes className="h-5 w-5" />
-              </button>
+  if (!task) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center">
+        <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={onClose}></div>
+        <div className="relative inline-block w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">Task Details</h3>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-500 transition-colors"
+            >
+              <FaTimes className="h-5 w-5" />
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Title</h4>
+              <p className="text-lg">{task.title}</p>
             </div>
             
-            <div className="space-y-4">
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Title</h4>
-                <p className="text-lg">{task.title}</p>
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Description</h4>
-                <p className="text-gray-700 dark:text-gray-300">{task.description || "No description provided"}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Priority</h4>
-                  <p>{task.priority}</p>
-                </div>
-                
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</h4>
-                  <p className={task.completed ? "text-green-500" : "text-yellow-500"}>
-                    {task.completed ? "Completed" : "In Progress"}
-                  </p>
-                </div>
-              </div>
-              
-              {task.dueDate && (
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Due Date</h4>
-                  <p>{new Date(task.dueDate).toLocaleDateString()}</p>
-                </div>
-              )}
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Description</h4>
+              <p className="text-gray-700 dark:text-gray-300">{task.description || "No description provided"}</p>
             </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Priority</h4>
+                <p>{task.priority}</p>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</h4>
+                <p className={task.completed ? "text-green-500" : "text-yellow-500"}>
+                  {task.completed ? "Completed" : "In Progress"}
+                </p>
+              </div>
+            </div>
+            
+            {task.dueDate && (
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Due Date</h4>
+                <p>{new Date(task.dueDate).toLocaleDateString()}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
+
 // Main Dashboard Component
 const DashboardPage = () => {
   const [todos, setTodos] = useState([]);
@@ -192,18 +202,26 @@ const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState("tasks");
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState("all");
+  const [selectedStat, setSelectedStat] = useState("overview"); // New state for selected statistic
+  const tasksPerPage = 5;
 
   useEffect(() => {
     fetchTodos();
   }, []);
 
   const fetchTodos = async () => {
-    const querySnapshot = await getDocs(collection(db, "todos"));
-    const todoList = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setTodos(todoList);
+    try {
+      const querySnapshot = await getDocs(collection(db, "todos"));
+      const todoList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTodos(todoList);
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
   };
 
   const handleMarkAsDone = async (todoId) => {
@@ -235,7 +253,28 @@ const DashboardPage = () => {
     setSelectedTask(task);
   };
 
-  // ...existing derived data and helper functions...
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  const handleStatClick = (stat) => {
+    setSelectedStat(stat);
+    setCurrentPage(1); // Reset pagination when switching views
+  };
+
+  const filteredTasks = todos.filter(task => {
+    if (filter === "completed") return task.completed;
+    if (filter === "ongoing") return !task.completed;
+    return true;
+  });
+
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  const currentTasks = filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const ongoingTasks = todos.filter((todo) => !todo.completed);
   const completedTasks = todos.filter((todo) => todo.completed);
   const totalTasks = todos.length;
@@ -329,125 +368,178 @@ const DashboardPage = () => {
     </div>
   );
 
-  return (
-    <div className="p-6 space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
-      {/* ... existing header and tabs code ... */}
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
-        <button
-          onClick={() => setShowTodoForm(true)}
-          className="flex items-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          <FaPlus className="h-4 w-4" />
-          <span>Add Task</span>
-        </button>
-      </div>
+  // Render content based on selected statistic
+  const renderMainContent = () => {
+    let tasksToDisplay = [];
+    switch (selectedStat) {
+      case "overview":
+        tasksToDisplay = filteredTasks;
+        break;
+      case "ongoing":
+        tasksToDisplay = ongoingTasks;
+        break;
+      case "completed":
+        tasksToDisplay = completedTasks;
+        break;
+      case "highPriority":
+        tasksToDisplay = todos.filter(task => task.priority === "high");
+        break;
+      default:
+        tasksToDisplay = filteredTasks;
+    }
 
-      {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
-        <div className="flex space-x-8">
-          <button
-            onClick={() => setActiveTab("tasks")}
-            className={`flex items-center space-x-2 py-4 ${
-              activeTab === "tasks"
-                ? "border-b-2 border-blue-500 text-blue-500"
-                : "text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-            }`}
-          >
-            <FaList className="h-4 w-4" />
-            <span>Tasks</span>
-          </button>
-          <button
-            onClick={() => setActiveTab("expenses")}
-            className={`flex items-center space-x-2 py-4 ${
-              activeTab === "expenses"
-                ? "border-b-2 border-blue-500 text-blue-500"
-                : "text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-            }`}
-          >
-            <FaMoneyBill className="h-4 w-4" />
-            <span>Expenses</span>
-          </button>
-        </div>
-      </div>
+    const paginatedTasks = tasksToDisplay.slice(indexOfFirstTask, indexOfLastTask);
 
-      {activeTab === "tasks" && (
-        <div className="space-y-6">
-          {/* Progress Overview */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-            <div className="flex items-center space-x-2 mb-4">
-              <FaChartLine className="h-5 w-5 text-blue-500" />
-              <h2 className="text-xl font-semibold">Task Progress</h2>
-            </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              {completedTasks.length} of {totalTasks} tasks completed
-            </p>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-              <div
-                className="bg-blue-500 h-2 rounded-full transition-all duration-500"
-                style={{ width: `${progressPercentage}%` }}
-              ></div>
-            </div>
-          </div>
-
-          {/* Task Lists */}
-          <div className="grid gap-6 md:grid-cols-2">
-            {/* Ongoing Tasks */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">Ongoing Tasks</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {ongoingTasks.length} tasks remaining
-              </p>
-              <div className="space-y-4">
-                {ongoingTasks.map((task) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    onDone={handleMarkAsDone}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                ))}
-                {ongoingTasks.length === 0 && (
-                  <p className="text-gray-500 text-center py-4">No ongoing tasks</p>
-                )}
-              </div>
-            </div>
-
-            {/* Completed Tasks */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">Completed Tasks</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {completedTasks.length} tasks completed
-              </p>
-              <div className="space-y-4">
-                {completedTasks.map((task) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    onDone={handleMarkAsDone}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                ))}
-                {completedTasks.length === 0 && (
-                  <p className="text-gray-500 text-center py-4">No completed tasks</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {activeTab === "expenses" && (
+    return (
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold">
+          {selectedStat === "overview" ? "All Tasks" : 
+           selectedStat === "ongoing" ? "Ongoing Tasks" :
+           selectedStat === "completed" ? "Completed Tasks" :
+           "High Priority Tasks"}
+        </h2>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">Expenses</h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            Expense tracking functionality coming soon...
+          <div className="space-y-4">
+            {paginatedTasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                onDone={handleMarkAsDone}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))}
+            {paginatedTasks.length === 0 && (
+              <p className="text-gray-500 text-center py-4">No tasks found</p>
+            )}
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-between items-center mt-6">
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="flex items-center space-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg disabled:opacity-50"
+            >
+              <FaArrowLeft className="h-4 w-4" />
+              <span>Previous</span>
+            </button>
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Page {currentPage} of {Math.ceil(tasksToDisplay.length / tasksPerPage)}
+            </span>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === Math.ceil(tasksToDisplay.length / tasksPerPage)}
+              className="flex items-center space-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg disabled:opacity-50"
+            >
+              <span>Next</span>
+              <FaArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="p-6 space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen flex">
+      {/* Left Side: Statistics Section */}
+      <div className="w-1/4 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 space-y-6">
+        <h2 className="text-xl font-semibold mb-4">Task Statistics</h2>
+
+        {/* Total Tasks */}
+        <div
+          className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+          onClick={() => handleStatClick("overview")}
+        >
+          <div className="p-3 bg-blue-100 dark:bg-blue-800 rounded-full">
+            <ClipboardList className="h-6 w-6 text-blue-500 dark:text-blue-300" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Total Tasks</p>
+            <p className="text-lg font-semibold">{totalTasks}</p>
+          </div>
+        </div>
+
+        {/* Ongoing Tasks */}
+        <div
+          className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+          onClick={() => handleStatClick("ongoing")}
+        >
+          <div className="p-3 bg-yellow-100 dark:bg-yellow-800 rounded-full">
+            <Clock className="h-6 w-6 text-yellow-500 dark:text-yellow-300" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Ongoing Tasks</p>
+            <p className="text-lg font-semibold">{ongoingTasks.length}</p>
+          </div>
+        </div>
+
+        {/* Completed Tasks */}
+        <div
+          className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+          onClick={() => handleStatClick("completed")}
+        >
+          <div className="p-3 bg-green-100 dark:bg-green-800 rounded-full">
+            <CheckCircle className="h-6 w-6 text-green-500 dark:text-green-300" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Completed Tasks</p>
+            <p className="text-lg font-semibold">{completedTasks.length}</p>
+          </div>
+        </div>
+
+        {/* High Priority Tasks */}
+        <div
+          className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+          onClick={() => handleStatClick("highPriority")}
+        >
+          <div className="p-3 bg-red-100 dark:bg-red-800 rounded-full">
+            <AlertCircle className="h-6 w-6 text-red-500 dark:text-red-300" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">High Priority</p>
+            <p className="text-lg font-semibold">
+              {todos.filter(task => task.priority === "high").length}
+            </p>
+          </div>
+        </div>
+
+        {/* Progress Overview */}
+        <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div className="flex items-center space-x-2 mb-4">
+            <TrendingUp className="h-5 w-5 text-blue-500 dark:text-blue-300" />
+            <p className="text-sm text-gray-500 dark:text-gray-400">Progress</p>
+          </div>
+          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+            <div
+              className="bg-blue-500 h-2 rounded-full"
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            {completedTasks.length} of {totalTasks} tasks completed
           </p>
         </div>
-      )}
+      </div>
+
+      {/* Right Side: Main Content */}
+      <div className="w-3/4 pl-6">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
+          <button
+            onClick={() => setShowTodoForm(true)}
+            className="flex items-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <FaPlus className="h-4 w-4" />
+            <span>Add Task</span>
+          </button>
+        </div>
+
+        {/* Main Content */}
+        {renderMainContent()}
+      </div>
 
       {/* Todo Form Modal */}
       {showTodoForm && (
