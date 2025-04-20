@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { FaHome, FaBriefcase, FaBlog, FaStar } from 'react-icons/fa';
+import { FaHome, FaBriefcase, FaBlog, FaStar, FaGraduationCap } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { auth } from '../lib/firebase';
 import { User, onAuthStateChanged } from 'firebase/auth';
@@ -30,6 +30,7 @@ export default function Navbar() {
   const navItems: NavItem[] = [
     { href: '/', label: 'Home', icon: FaHome },
     { href: '/portfolio', label: 'Portfolio', icon: FaBriefcase },
+    { href: '/academy/landing', label: 'Academy', icon:FaGraduationCap},
     { href: '/blogs', label: 'Blog', icon: FaBlog },
     { href: '/reviews', label: 'Reviews', icon: FaStar },
   ];
