@@ -139,6 +139,15 @@ const Portfolio = () => {
       tags: ["Python", "Data Visualization", "Financial Tool"]
     },
     {
+      id: "agri-ecommerce",
+      imageUrl: "/img/agri.jpeg",
+      title: "E-commerce Webapp",
+      description: "An ecommerce webapp to sell agricultural produce",
+      githubLink: "https://github.com/ivancliff029/agri-ecommerce",
+      category: "Java",
+      tags: ["Java", "E-commerce", "CMS"]
+    },
+    {
       id: "journalx",
       imageUrl: "/img/journalx.png",
       title: "JournalX",
@@ -147,6 +156,15 @@ const Portfolio = () => {
       deploymentLink: "https://journalx.vercel.app",
       category: "NextJS",
       tags: ["NextJS", "AI Integration", "React", "TailwindCSS"]
+    },
+    {
+      id: "climate-intelligence",
+      imageUrl: "/img/cip.png",
+      title: "Climate Intelligence",
+      description: "Get personalised crops to grow based on your location,data insights usinig Artificial intelligence",
+      deploymentLink: "https://allspacetechnologies.vercel.app/climate-control",
+      category: "NextJS",
+      tags: ["NextJS", "AI Integration", "Climate Intelligence", "Data Insights"]
     },
     {
       id: "engaato",
@@ -166,7 +184,16 @@ const Portfolio = () => {
       deploymentLink: "https://koozali.zartman.net/",
       category: "Wordpress",
       tags: ["Wordpress", "Documentation", "Community Portal"]
-    }, 
+    },
+    {
+      id: "lajeni",
+      imageUrl: "/img/lajeni.png",
+      title: "Lajeni Cleaning Services",
+      description: "Official site for Lajeni Cleaning Services Kampala",
+      deploymentLink: "https://lajenicleaningservices.com/",
+      category: "Wordpress",
+      tags: ["Wordpress", "Cleaning Services", "Apparel"]
+    },  
     {
       id: "biashara",
       imageUrl: "/img/biashara.png",
