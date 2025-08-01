@@ -8,7 +8,7 @@ import { Coffee, Github, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import HalfScreen from '../Components/HalfScreen';
-import BuyMeCoffeeSection from '../Components/BuyMeCoffee'
+//import BuyMeCoffeeSection from '../Components/BuyMeCoffee'
 
 // Custom arrow component
 const CustomArrow = ({ direction, onClick }) => {
@@ -313,7 +313,7 @@ const Portfolio = () => {
       </section>
       
       {/* Buy Me a Coffee Section */}
-      <BuyMeCoffeeSection />
+     
       
       <Footer />
     </div>
