@@ -5,7 +5,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import ContactForm from './Components/ContactForm';
 import AboutMe from './Components/AboutMe';
-import Technologies from './Components/Technologies';
+//import Technologies from './Components/Technologies';
 import NewsletterSignup from './Components/Newsletter';
 import AnimatedBackground from './Components/AnimatedBackground';
 import Blogs from './Components/Blogs';
@@ -46,7 +46,7 @@ const Home = () => {
         </div>
       </section>
       <AboutMe />
-      <Technologies />
+      
       <NewsletterSignup />
       <ContactForm />
       <Blogs />
