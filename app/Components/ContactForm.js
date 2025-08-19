@@ -124,7 +124,7 @@ const ContactForm = () => {
 
   const contactInfo = [
     { icon: <FaEnvelope />, text: 'odekeivancliff@gmail.com', href: 'mailto:odekeivancliff@gmail.com' },
-    { icon: <FaPhone />, text: '+256 778 054 598', href: 'tel:+256778054598' },
+    { icon: <FaPhone />, text: '+256766586689', href: 'tel:+256766586689' },
   ];
 
   const socialLinks = [
